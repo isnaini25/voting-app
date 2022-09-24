@@ -1,0 +1,36 @@
+<%- include('layout/header') %>
+  
+  <div class="container mt-6">
+    <h1  class="pt-3 text-center">New Poll</h1>
+    <div class="row d-flex justify-content-center">
+      <div class="col-lg-6 ">
+      <% if (data.error) { %>
+         <div class="alert alert-warning alert-dismissible fade show">
+           <%= data.error %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+         </div>
+        <% } %>
+        
+        <form enctype="application/x-www-form-urlencoded" action="/newpoll" method="post">
+          <div class="mb-3">
+            <label for="question" class="form-label">Question</label>
+            <input type="text" class="form-control" id="question" name="question" autofocus placeholder="Add question" required>
+          </div>
+          <div class="mb-3">
+            <label for="option" class="form-label">Options <small>separated by commas</small></label>
+            <textarea class="form-control" id="option" rows="3" name="options"></textarea>
+          </div>
+          <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-dark">Submit</button>
+          </div>
+      </form>
+
+      
+        <a href="/mypolls" class="text-decoration-none">Cancel</a> 
+       
+      </div>
+    </div>
+    
+  </div>
+  
+<%- include('layout/footer') %>

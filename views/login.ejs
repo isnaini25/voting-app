@@ -1,0 +1,44 @@
+<%- include('layout/header') %>
+  
+  <div class="container mt-6">
+    <h1  class="pt-3 text-center">Login</h1>
+    <div class="row d-flex justify-content-center">
+      <div class="col-lg-6 ">
+      <% if (data.error) { %>
+         <div class="alert alert-warning alert-dismissible fade show">
+           <%= data.error %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+         </div>
+        <% } %>
+        <% if (data.message) { %>
+         <div class="alert alert-success alert-dismissible fade show">
+           <%= data.message %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+         </div>
+        <% } %>
+        <form enctype="application/x-www-form-urlencoded" action="/login" method="post">
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="username" autofocus placeholder="@username" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="****" required>
+          </div>
+          <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-dark">Login</button>
+          </div>
+      </form>
+
+      <div class="alert alert-dark">
+        <p>Don't have an account? <a href="/signup" class="text-decoration-none">Sign up</a> </p> 
+        <span>Or login with my default user...</span> <br>
+        <span>username: you</span><br>
+        <span>password: you</span>
+      </div>
+      </div>
+    </div>
+    
+  </div>
+  
+<%- include('layout/footer') %>

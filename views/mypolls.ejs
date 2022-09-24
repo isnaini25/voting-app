@@ -1,0 +1,35 @@
+<%- include('layout/header') %>
+  <div class="container mt-6">
+  <h1  class="pt-3 text-center">My Polls</h1>
+  <div class="row d-flex justify-content-center">
+    <div class="col-lg-8 ">
+      <% if (data.message) { %>
+         <div class="alert alert-success alert-dismissible fade show">
+           <%= data.message %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+         </div>
+        <% } %>
+          
+      <% data.polls.forEach((poll, index) => { %>
+      <div class="card mb-4" >
+        <div class="card-body">
+          <h5 class="card-title"><%= poll.question %></h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          <% poll.options.forEach((option) => { %>
+          <li class="list-group-item"><%= option.name %> <span class="badge rounded-pill text-bg-primary"><%= option.count %> </span></li>
+          <% }); %>
+        </ul>
+        <div class="card-body">
+          <form method="post" action="/delete/<%= poll._id.toString() %>" class="d-inline">
+             <button class="card-link btn btn-danger" type="submit" onclick="confirm('Are you sure?')">Delete</button>
+          </form>
+         
+          <a href="/share/<%= poll._id.toString() %>" class="card-link btn btn-secondary">Share</a>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+  </div>
+  </div>
+<%- include('layout/footer') %>
