@@ -15,8 +15,8 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    minlength: [3, 'Must be at least 3'],
     required: true,
+    minlength: [3, 'Must be at least 3'],
   },
 });
 

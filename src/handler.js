@@ -1,5 +1,5 @@
-const { User, Poll } = require("./database");
-const bcrypt = require("bcrypt");
+const { User, Poll } = require('./database');
+const bcrypt = require('bcrypt');
 
 const createNewUser = (req, done) => {
   bcrypt.hash(req.password, 10, (err, hash) => {
@@ -13,22 +13,25 @@ const createNewUser = (req, done) => {
 };
 
 const userLogin = (req, done) => {
-  bcrypt.hash(req.password, 10, (err, hash) => {
+  User.find({ username: req.username }).exec((err, userFound) => {
     if (err) return done(err, null);
-    bcrypt.compare(req.password, hash, (err, result) => {
-      if (err) return done(err, null);
-      if (result) {
-        User.find({ username: req.username }).exec((err, userFound) => {
-          if (err) return done(err, null);
+    if (userFound.length > 0) {
+      bcrypt.compare(req.password, userFound[0].password, (err, result) => {
+        if (err) return done(err, null);
+        if (result) {
           done(null, userFound);
-        });
-      }
-    });
+        } else {
+          return done(null, { status: 401, message: 'Invalid credential' });
+        }
+      });
+    } else {
+      return done(null, { status: 401, message: 'Invalid credential' });
+    }
   });
 };
 
 const createNewPoll = (req, username, done) => {
-  const newOptions = req.options.split(",").map((op) => op.trim());
+  const newOptions = req.options.split(',').map((op) => op.trim());
   let options = [];
   newOptions.forEach((item) => {
     options.push({ name: item, count: 0 });
@@ -71,7 +74,7 @@ const votePoll = (id, req, done) => {
   Poll.findById(id).exec((err, pollFound) => {
     if (err) return done(err, null);
     // console.log(pollFound)
-    if (req.option === "add") {
+    if (req.option === 'add') {
       pollFound.options.push({ name: req.newOption, count: 1 });
     } else {
       let optionFound = pollFound.options.find(
